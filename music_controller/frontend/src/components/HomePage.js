@@ -4,10 +4,10 @@ import CreateRoomPage from "./CreateRoomPage";
 import Room from "./Room";
 import {
   BrowserRouter as Router,
+  Switch,
   Route,
   Link,
   Redirect,
-  Routes,
 } from "react-router-dom";
 
 export default class HomePage extends Component {
@@ -18,12 +18,14 @@ export default class HomePage extends Component {
   render() {
     return (
       <Router>
-        <Routes>
-          <Route path="/" element={<p>This is the homePage</p>}></Route>
-          <Route path="/join" element={<RoomJoinPage />}></Route>
-          <Route path="/create" element={<CreateRoomPage />}></Route>
-          <Route path="/room/:roomCode" element={<Room />}></Route>
-        </Routes>
+        <Switch>
+          <Route exact path="/">
+            <p>This is the home page</p>
+          </Route>
+          <Route path="/join" component={RoomJoinPage} />
+          <Route path="/create" component={CreateRoomPage} />
+          <Route path="/room/:roomCode" component={Room} />
+        </Switch>
       </Router>
     );
   }
