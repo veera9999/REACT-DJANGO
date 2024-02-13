@@ -33,8 +33,9 @@ class CreateRoomView(APIView):
             request.session.create()
 
         serializer = self.serializer_class(data=request.data)
-        assert isinstance(serializer.validated_data, dict), "validated_data must be a dictionary"
+        
         if serializer.is_valid():
+            assert isinstance(serializer.validated_data, dict), "validated_data must be a dictionary"
             guest_can_pause = serializer.validated_data['guest_can_pause']
             votes_to_skip = serializer.validated_data['votes_to_skip']
             host = request.session.session_key
