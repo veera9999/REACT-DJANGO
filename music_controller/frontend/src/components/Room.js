@@ -13,14 +13,22 @@ export default class Room extends Component {
   }
 
   getRoomDetails() {
-    fetch("/api/get-room" + "?code=" + this.roomCode)
-      .then((response) => response.json())
+    fetch(`/api/get-room?code=${this.roomCode}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Request failed with status " + response.status);
+        }
+        return response.json();
+      })
       .then((data) => {
         this.setState({
-          votesToSkip: data.votes_to_skip,
-          guestCanPause: data.guest_can_pause,
-          isHost: data.is_host,
+          votesToSkip: data.votes_to_skip ?? this.state.votesToSkip,
+          guestCanPause: data.guest_can_pause ?? this.state.guestCanPause,
+          isHost: data.is_host ?? this.state.isHost,
         });
+      })
+      .catch((error) => {
+        console.error("Failed to fetch room details:", error);
       });
   }
 
