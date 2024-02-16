@@ -12,15 +12,16 @@ export default class Room extends Component {
       showSettings: false,
     };
     this.roomCode = this.props.match.params.roomCode;
-    this.getRoomDetails();
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
     this.updateShowSettings = this.updateShowSettings.bind(this);
     this.renderSettingsButton = this.renderSettingsButton.bind(this);
     this.renderSettings = this.renderSettings.bind(this);
+    this.getRoomDetails = this.getRoomDetails.bind(this);
+    this.getRoomDetails();
   }
 
   getRoomDetails() {
-    fetch(`/api/get-room?code=${this.roomCode}`)
+    return fetch("/api/get-room" + "?code=" + this.roomCode)
       .then((response) => {
         if (!response.ok) {
           this.props.leaveRoomCallback();
@@ -30,13 +31,10 @@ export default class Room extends Component {
       })
       .then((data) => {
         this.setState({
-          votesToSkip: data.votes_to_skip ?? this.state.votesToSkip,
-          guestCanPause: data.guest_can_pause ?? this.state.guestCanPause,
-          isHost: data.is_host ?? this.state.isHost,
+          votesToSkip: data.votes_to_skip,
+          guestCanPause: data.guest_can_pause,
+          isHost: data.is_host,
         });
-      })
-      .catch((error) => {
-        console.error("Failed to fetch room details:", error);
       });
   }
 
@@ -65,8 +63,8 @@ export default class Room extends Component {
             update={true}
             votesToSkip={this.state.votesToSkip}
             guestCanPause={this.state.guestCanPause}
-            roomCode={this.state.roomCode}
-            updateCallback={() => {}}
+            roomCode={this.roomCode}
+            updateCallback={this.getRoomDetails}
           />
         </Grid>
         <Grid item xs={12} align="center">
@@ -106,17 +104,17 @@ export default class Room extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} align="center">
-          <Typography variant="h4" component="h4">
-            Votes: {this.state.votesToSkip.toString()}
+          <Typography variant="h6" component="h6">
+            Votes: {this.state.votesToSkip}
           </Typography>
         </Grid>
         <Grid item xs={12} align="center">
-          <Typography variant="h4" component="h4">
-            Guest can Pause: {this.state.guestCanPause.toString()}
+          <Typography variant="h6" component="h6">
+            Guest Can Pause: {this.state.guestCanPause.toString()}
           </Typography>
         </Grid>
         <Grid item xs={12} align="center">
-          <Typography variant="h4" component="h4">
+          <Typography variant="h6" component="h6">
             Host: {this.state.isHost.toString()}
           </Typography>
         </Grid>
