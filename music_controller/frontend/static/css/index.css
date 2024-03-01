@@ -1,3 +1,4 @@
+/*
 html,
 body {
   height: 100%;
@@ -23,4 +24,53 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+*/
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: fixed
+    linear-gradient(
+      45deg,
+      #6a5acd,
+      #483d8b,
+      indigo,
+      #4169e1,
+      purple,
+      #4b0082,
+      Turquoise
+    );
+  background-size: 300% 300%;
+  animation: color 20s linear infinite;
+}
+
+@keyframes color {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#app {
+  width: 100%;
+  height: 100%;
 }

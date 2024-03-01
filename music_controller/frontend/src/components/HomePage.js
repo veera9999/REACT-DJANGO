@@ -10,6 +10,7 @@ import {
   Link,
   Redirect,
 } from "react-router-dom";
+import HomePageCSS from "../../static/css/HomePage.module.css";
 
 export default class HomePage extends Component {
   constructor(props) {
@@ -34,19 +35,43 @@ export default class HomePage extends Component {
     return (
       <Grid container spacing={3}>
         <Grid item xs={12} align="center">
-          <Typography variant="h3" compact="h3">
-            House Party
-          </Typography>
+          <div className={HomePageCSS.hero}>
+            <video
+              autoPlay
+              loop
+              muted
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+              <source src="/static/images/party.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <img
+              className={HomePageCSS.image}
+              src="/static/images/party.webp"
+              alt="party.webp"
+            />
+          </div>
         </Grid>
-        <Grid item xs={12} align="center">
-          <ButtonGroup disableElevation variant="contained" color="primary">
-            <Button color="primary" to="/join" component={Link}>
-              Join a Room
-            </Button>
-            <Button color="secondary" to="/create" component={Link}>
-              Create a Room
-            </Button>
-          </ButtonGroup>
+        <Grid item xs={6} align="center">
+          <Button
+            className={HomePageCSS.btn}
+            color="primary"
+            variant="contained"
+            size="large"
+            to="/join"
+            component={Link}>
+            Join a Room
+          </Button>
+        </Grid>
+        <Grid item xs={6} align="center">
+          <Button
+            className={HomePageCSS.btn}
+            color="secondary"
+            variant="contained"
+            size="large"
+            to="/create"
+            component={Link}>
+            Create Room
+          </Button>
         </Grid>
       </Grid>
     );

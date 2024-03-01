@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
+import MusicPlayer from "./MusicPlayer";
 
 export default class Room extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ export default class Room extends Component {
       isHost: false,
       showSettings: false,
       spotifyAuthenticated: false,
+      song: {},
     };
     this.roomCode = this.props.match.params.roomCode;
     this.leaveButtonPressed = this.leaveButtonPressed.bind(this);
@@ -19,7 +21,16 @@ export default class Room extends Component {
     this.renderSettings = this.renderSettings.bind(this);
     this.getRoomDetails = this.getRoomDetails.bind(this);
     this.authenticateSpotify = this.authenticateSpotify.bind(this);
+    this.getCurrentSong = this.getCurrentSong.bind(this);
     this.getRoomDetails();
+  }
+
+  componentDidMount() {
+    this.interval = setInterval(this.getCurrentSong, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   getRoomDetails() {
@@ -56,6 +67,35 @@ export default class Room extends Component {
               window.location.replace(data.url);
             });
         }
+      });
+  }
+
+  getCurrentSong() {
+    fetch("/spotify/current-song")
+      .then((response) => {
+        if (!response.ok) {
+          console.error(
+            "Failed to fetch the current song, response status:",
+            response.status
+          );
+          throw new Error("Failed to fetch the current song");
+        }
+        return response.text(); // Read the response as text first
+      })
+      .then((text) => {
+        if (text) {
+          // Check if the response text is not empty
+          const data = JSON.parse(text); // Parse the text as JSON
+          this.setState({ song: data });
+          console.log(data);
+        } else {
+          // Handle the case where the response body is empty
+          console.log("No current song information available.");
+          this.setState({ song: {} }); // Reset the song state or handle as needed
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching the current song:", error);
       });
   }
 
@@ -125,20 +165,10 @@ export default class Room extends Component {
           </Typography>
         </Grid>
         <Grid item xs={12} align="center">
-          <Typography variant="h6" component="h6">
-            Votes: {this.state.votesToSkip}
-          </Typography>
+          <Typography variant="h6">{this.state.song.title}</Typography>{" "}
+          {/* Display the song title */}
         </Grid>
-        <Grid item xs={12} align="center">
-          <Typography variant="h6" component="h6">
-            Guest Can Pause: {this.state.guestCanPause.toString()}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} align="center">
-          <Typography variant="h6" component="h6">
-            Host: {this.state.isHost.toString()}
-          </Typography>
-        </Grid>
+        <MusicPlayer {...this.state.song} />
         {this.state.isHost ? this.renderSettingsButton() : null}
         <Grid item xs={12} align="center">
           <Button

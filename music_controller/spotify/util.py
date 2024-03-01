@@ -1,9 +1,12 @@
-from datetime import timedelta
-from urllib import response
 from .models import SpotifyToken
 from django.utils import timezone
-from .credentials import CLIENT_ID,CLIENT_SECRET
-from requests import post
+from datetime import timedelta
+from .credentials import CLIENT_ID, CLIENT_SECRET
+from requests import post, put, get
+import logging
+
+
+BASE_URL = "https://api.spotify.com/v1/me/"
 
 def get_user_tokens(session_id):
     user_tokens = SpotifyToken.objects.filter(user=session_id)
@@ -44,9 +47,11 @@ def is_spotify_authenticated(session_id):
 
 def refresh_spotify_token(session_id):
     tokens = get_user_tokens(session_id)
-    if tokens is not None:
-        refresh_token = tokens.refresh_token
+    if not tokens:
+        logging.error(f"No Spotify tokens found for session_id: {session_id}")
+        return None  # Consider re-authentication flow
 
+    refresh_token = tokens.refresh_token
     response = post('https://accounts.spotify.com/api/token', data={
         'grant_type': 'refresh_token',
         'refresh_token': refresh_token,
@@ -54,13 +59,45 @@ def refresh_spotify_token(session_id):
         'client_secret': CLIENT_SECRET
     }).json()
 
-    access_token = response.get('access_token')
-    token_type = response.get('token_type')
-    expires_in = response.get('expires_in')
-    refresh_token = response.get('refresh_token')
+    if 'access_token' in response:
+        access_token = response['access_token']
+        token_type = response.get('token_type', 'Bearer')
+        expires_in = response.get('expires_in', 3600)
+        update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token)
+    else:
+        logging.error(f"Failed to refresh Spotify token for session_id: {session_id} - {response.get('error')}")
 
-    update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token)
 
 
 
+def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
+    tokens = get_user_tokens(session_id)
+    if not tokens:
+        logging.error(f"No Spotify tokens found for session_id: {session_id}")
+        raise Exception("Authentication required")
 
+    headers = {'Content-Type': 'application/json', 'Authorization': f"Bearer {tokens.access_token}"}
+
+    if post_:
+        response = post(BASE_URL + endpoint, headers=headers)
+    elif put_:
+        response = put(BASE_URL + endpoint, headers=headers)
+    else:
+        response = get(BASE_URL + endpoint, headers=headers)
+
+    if response.status_code not in [200, 201]:
+        logging.error(f"Spotify API request failed: {response.json()}")
+        return {'Error': 'Spotify API request failed'}
+
+    return response.json()
+
+
+def play_song(session_id):
+    return execute_spotify_api_request(session_id, "player/play", put_=True)
+
+
+def pause_song(session_id):
+    return execute_spotify_api_request(session_id, "player/pause", put_=True)
+
+def skip_song(session_id):
+    return execute_spotify_api_request(session_id, "player/next",post_=True)

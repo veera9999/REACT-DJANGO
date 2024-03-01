@@ -1,0 +1,101 @@
+@property --gradient-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+:root {
+  --clr-1: Pink;
+  --clr-2: purple;
+  --clr-3: royalblue;
+  --clr-4: powderblue;
+  --clr-5: Turquoise;
+}
+
+.hero {
+  color: white;
+  height: 50vh;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 0.5rem;
+  position: relative;
+  background: linear-gradient(
+    45deg,
+    darkslateblue,
+    powderblue,
+    navy,
+    royalblue,
+    midnightblue
+  );
+
+  background-size: 300% 300%;
+  animation: color 20s linear infinite;
+}
+@keyframes color {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.hero::before,
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: -0.5rem;
+  z-index: -1;
+  background: conic-gradient(
+    from var(--gradient-angle),
+    var(--clr-3),
+    var(--clr-4),
+    var(--clr-5),
+    var(--clr-4),
+    var(--clr-3)
+  );
+  border-radius: inherit;
+  animation: rotation 20s linear infinite;
+}
+
+.hero::after {
+  filter: blur(3.5rem);
+}
+
+@keyframes rotation {
+  0% {
+    --gradient-angle: 0deg;
+  }
+  100% {
+    --gradient-angle: 360deg;
+  }
+}
+
+.btn {
+  background: fixed
+    linear-gradient(
+      45deg,
+      #6a5acd,
+      #483d8b,
+      indigo,
+      #4169e1,
+      purple,
+      #4b0082,
+      Turquoise
+    );
+  background-size: 300% 300%;
+  animation: color 20s linear infinite;
+}
+@keyframes color {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
