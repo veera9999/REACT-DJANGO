@@ -2,16 +2,20 @@
   background: fixed
     linear-gradient(
       45deg,
-      #6a5acd,
+      /* #6a5acd,
       #483d8b,
       indigo,
       #4169e1,
       purple,
       #4b0082,
-      Turquoise
+      Turquoise */
+        Indigo,
+      rgb(131, 17, 131),
+      blue,
+      purple
     );
   background-size: 300% 300%;
-  animation: color 20s linear infinite;
+  animation: color 10s linear infinite;
 }
 @keyframes color {
   0% {
@@ -25,61 +29,40 @@
   }
 }
 
-.image {
-  width: inherit;
-  height: inherit;
+@font-face {
+  font-family: "dancing";
+  font-weight: 72;
+  src: url(../../static/fonts/DancingScript-Bold.ttf);
 }
-
-@property --gradient-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-:root {
-  --clr-1: Pink;
-  --clr-2: purple;
-  --clr-3: royalblue;
-  --clr-4: powderblue;
-  --clr-5: Turquoise;
-}
-
-.hero {
-  height: 60vh;
-  aspect-ratio: 1 / 1.5;
-  background: var(--clr-1);
-  border-radius: 0.5rem;
-
-  position: relative;
-}
-
-.hero::before,
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: -0.5rem;
-  z-index: -1;
-  background: conic-gradient(
-    from var(--gradient-angle),
-    var(--clr-3),
-    var(--clr-4),
-    var(--clr-5),
-    var(--clr-4),
-    var(--clr-3)
+.gradientText {
+  font-family: "dancing";
+  font-size: 200px;
+  letter-spacing: 1px;
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    indianred,
+    blue,
+    purple,
+    darkcyan,
+    mediumpurple,
+    Rebeccapurple,
+    midnightblue,
+    Darkcyan
   );
-  border-radius: inherit;
-  animation: rotation 20s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 300% 300%;
+  animation: gradient 15s ease-in-out infinite;
 }
-
-.hero::after {
-  filter: blur(3.5rem);
-}
-
-@keyframes rotation {
+@keyframes gradient {
   0% {
-    --gradient-angle: 0deg;
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
   100% {
-    --gradient-angle: 360deg;
+    background-position: 0% 50%;
   }
 }

@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "dancing";
+  font-weight: 72;
+  src: url(../../static/fonts/DancingScript-Bold.ttf);
+}
+.main {
+  font-family: "dancing";
+  font-weight: 200px;
+}

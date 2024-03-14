@@ -35,20 +35,10 @@ export default class HomePage extends Component {
     return (
       <Grid container spacing={3}>
         <Grid item xs={12} align="center">
-          <div className={HomePageCSS.hero}>
-            <video
-              autoPlay
-              loop
-              muted
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}>
-              <source src="/static/images/party.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <img
-              className={HomePageCSS.image}
-              src="/static/images/party.webp"
-              alt="party.webp"
-            />
+          <div className={HomePageCSS.pageName}>
+            <Typography variant="h1" component="h1">
+              <p className={HomePageCSS.gradientText}>SyncVibe</p>
+            </Typography>
           </div>
         </Grid>
         <Grid item xs={6} align="center">

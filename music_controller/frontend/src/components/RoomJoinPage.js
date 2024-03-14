@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TextField, Button, Grid, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import RoomJoinPageCss from "../../static/css/RoomJoinPage.module.css";
 
 export default class RoomJoinPage extends Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class RoomJoinPage extends Component {
       <Grid container spacing={1}>
         <Grid item xs={12} align="center">
           <Typography variant="h4" component="h4">
-            Join a Room
+            <p className={RoomJoinPageCss.main}>Join a Room</p>
           </Typography>
         </Grid>
         <Grid item xs={12} align="center">

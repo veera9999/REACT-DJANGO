@@ -5,26 +5,30 @@
 }
 
 :root {
-  --clr-1: Pink;
+  --clr-1: Indigo;
   --clr-2: purple;
-  --clr-3: royalblue;
-  --clr-4: powderblue;
-  --clr-5: Turquoise;
+  --clr-3: DarkBlue;
+  --clr-4: rgb(126, 23, 40);
+  --clr-5: DarkViolet;
 }
 
 .hero {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Center children vertically */
   color: white;
   height: 50vh;
   aspect-ratio: 1 / 1.5;
   border-radius: 0.5rem;
   position: relative;
   background: linear-gradient(
-    45deg,
-    darkslateblue,
-    powderblue,
-    navy,
-    royalblue,
-    midnightblue
+    135deg,
+    darkcyan,
+    mediumpurple,
+    Rebeccapurple,
+    midnightblue,
+    Darkcyan
   );
 
   background-size: 300% 300%;
@@ -77,13 +81,11 @@
   background: fixed
     linear-gradient(
       45deg,
-      #6a5acd,
-      #483d8b,
-      indigo,
-      #4169e1,
-      purple,
-      #4b0082,
-      Turquoise
+      var(--clr-3),
+      var(--clr-4),
+      var(--clr-5),
+      var(--clr-4),
+      var(--clr-3)
     );
   background-size: 300% 300%;
   animation: color 20s linear infinite;
@@ -98,4 +100,35 @@
   100% {
     background-position: 0% 50%;
   }
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.content {
+  z-index: 2;
+  width: 100%;
+  padding-left: 42vw;
+  /* No need to set width to 100% if you want it to be constrained */
+  /* Don't use position: fixed here, it's unnecessary */
+}
+
+.pageName {
+  top: 0;
+  left: 0;
 }

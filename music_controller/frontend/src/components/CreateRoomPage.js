@@ -12,6 +12,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Collapse } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import CreateRoomPageCSS from "../../static/css/CreateRoomPage.module.css";
+import HomePageCSS from "../../static/css/HomePage.module.css";
 
 export default class CreateRoomPage extends Component {
   static defaultProps = {
@@ -117,6 +118,7 @@ export default class CreateRoomPage extends Component {
     return (
       <Grid item xs={12} align="center">
         <Button
+          className={CreateRoomPageCSS.btn}
           color="primary"
           variant="contained"
           onClick={this.handleUpdateButtonPressed}>
@@ -130,80 +132,95 @@ export default class CreateRoomPage extends Component {
     const title = this.props.update ? "Update Room" : "Create a Room";
 
     return (
-      <div className={CreateRoomPageCSS.hero}>
-        <Grid container spacing={1}>
-          <Grid item xs={12} align="center">
-            <Collapse
-              in={this.state.errorMsg != "" || this.state.successMsg != ""}>
-              {this.state.successMsg != "" ? (
-                <Alert
-                  severity="success"
-                  onClose={() => {
-                    this.setState({ successMsg: "" });
-                  }}>
-                  {this.state.successMsg}
-                </Alert>
-              ) : (
-                <Alert
-                  severity="error"
-                  onClose={() => {
-                    this.setState({ errorMsg: "" });
-                  }}>
-                  {this.state.errorMsg}
-                </Alert>
-              )}
-            </Collapse>
-          </Grid>
-          <Grid item xs={12} align="center">
-            <Typography component="h4" variant="h4">
-              {title}
-            </Typography>
-          </Grid>
-          <Grid item xs={12} align="center">
-            <FormControl component="fieldset">
-              <FormHelperText className={CreateRoomPageCSS.fht} align="center">
-                Guest Control of Playback State
-              </FormHelperText>
-              <RadioGroup
-                row
-                defaultValue={this.props.guestCanPause.toString()}
-                onChange={this.handleGuestCanPauseChange}>
-                <FormControlLabel
-                  value="true"
-                  control={<Radio color="primary" />}
-                  label="Play/Pause"
-                  labelPlacement="bottom"
-                />
-                <FormControlLabel
-                  value="false"
-                  control={<Radio color="secondary" />}
-                  label="No Control"
-                  labelPlacement="bottom"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} align="center">
-            <FormControl>
-              <TextField
-                required={true}
-                type="number"
-                onChange={this.handleVotesChange}
-                defaultValue={this.state.votesToSkip}
-                inputProps={{
-                  min: 1,
-                  style: { textAlign: "center" },
-                }}
-              />
-              <FormHelperText className={CreateRoomPageCSS.fht} align="center">
-                Votes Required To Skip Song
-              </FormHelperText>
-            </FormControl>
-          </Grid>
-          {this.props.update
-            ? this.renderUpdateButtons()
-            : this.renderCreateButtons()}
-        </Grid>
+      <div className={CreateRoomPageCSS.container}>
+        <video
+          autoPlay
+          muted
+          loop
+          className={CreateRoomPageCSS.backgroundVideo}>
+          <source src="../../static/images/videoBG.mp4" type="video/mp4" />
+        </video>
+        <div className={CreateRoomPageCSS.content}>
+          <div className={CreateRoomPageCSS.hero}>
+            <Grid container spacing={1}>
+              <Grid item xs={12} align="center">
+                <Collapse
+                  in={this.state.errorMsg != "" || this.state.successMsg != ""}>
+                  {this.state.successMsg != "" ? (
+                    <Alert
+                      severity="success"
+                      onClose={() => {
+                        this.setState({ successMsg: "" });
+                      }}>
+                      {this.state.successMsg}
+                    </Alert>
+                  ) : (
+                    <Alert
+                      severity="error"
+                      onClose={() => {
+                        this.setState({ errorMsg: "" });
+                      }}>
+                      {this.state.errorMsg}
+                    </Alert>
+                  )}
+                </Collapse>
+              </Grid>
+              <Grid item xs={12} align="center">
+                <Typography component="h4" variant="h4">
+                  {title}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} align="center">
+                <FormControl component="fieldset">
+                  <FormHelperText
+                    className={CreateRoomPageCSS.fht}
+                    align="center">
+                    Guest Control of Playback State
+                  </FormHelperText>
+                  <RadioGroup
+                    row
+                    defaultValue={this.props.guestCanPause.toString()}
+                    onChange={this.handleGuestCanPauseChange}>
+                    <FormControlLabel
+                      value="true"
+                      control={<Radio color="primary" />}
+                      label="Play/Pause"
+                      labelPlacement="bottom"
+                    />
+                    <FormControlLabel
+                      value="false"
+                      control={<Radio color="secondary" />}
+                      label="No Control"
+                      labelPlacement="bottom"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} align="center">
+                <FormControl>
+                  <TextField
+                    required={true}
+                    type="number"
+                    onChange={this.handleVotesChange}
+                    defaultValue={this.state.votesToSkip}
+                    inputProps={{
+                      min: 1,
+                      style: { textAlign: "center" },
+                    }}
+                  />
+                  <FormHelperText
+                    className={CreateRoomPageCSS.fht}
+                    align="center">
+                    Votes Required To Skip Song
+                  </FormHelperText>
+                </FormControl>
+              </Grid>
+              {this.props.update
+                ? this.renderUpdateButtons()
+                : this.renderCreateButtons()}
+            </Grid>
+          </div>
+        </div>
       </div>
     );
   }
