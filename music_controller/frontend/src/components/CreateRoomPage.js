@@ -12,7 +12,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { Collapse } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import CreateRoomPageCSS from "../../static/css/CreateRoomPage.module.css";
-import HomePageCSS from "../../static/css/HomePage.module.css";
 
 export default class CreateRoomPage extends Component {
   static defaultProps = {
@@ -116,14 +115,25 @@ export default class CreateRoomPage extends Component {
 
   renderUpdateButtons() {
     return (
-      <Grid item xs={12} align="center">
-        <Button
-          className={CreateRoomPageCSS.btn}
-          color="primary"
-          variant="contained"
-          onClick={this.handleUpdateButtonPressed}>
-          Update Room
-        </Button>
+      <Grid container spacing={1}>
+        <Grid item xs={12} align="center">
+          <Button
+            className={CreateRoomPageCSS.btn}
+            color="primary"
+            variant="contained"
+            onClick={this.handleUpdateButtonPressed}>
+            Update Room
+          </Button>
+        </Grid>
+        <Grid item xs={12} align="center">
+          <Button
+            className={CreateRoomPageCSS.btn}
+            variant="contained"
+            color="secondary"
+            onClick={() => this.props.updateShowSettings(false)}>
+            Close
+          </Button>
+        </Grid>
       </Grid>
     );
   }
@@ -133,6 +143,7 @@ export default class CreateRoomPage extends Component {
 
     return (
       <div className={CreateRoomPageCSS.container}>
+        <p className={CreateRoomPageCSS.gradientText}>SyncVibe</p>
         <video
           autoPlay
           muted
@@ -208,9 +219,7 @@ export default class CreateRoomPage extends Component {
                       style: { textAlign: "center" },
                     }}
                   />
-                  <FormHelperText
-                    className={CreateRoomPageCSS.fht}
-                    align="center">
+                  <FormHelperText align="center">
                     Votes Required To Skip Song
                   </FormHelperText>
                 </FormControl>

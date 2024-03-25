@@ -33,37 +33,51 @@ export default class HomePage extends Component {
 
   renderHomePage() {
     return (
-      <Grid container spacing={3}>
-        <Grid item xs={12} align="center">
-          <div className={HomePageCSS.pageName}>
-            <Typography variant="h1" component="h1">
-              <p className={HomePageCSS.gradientText}>SyncVibe</p>
-            </Typography>
-          </div>
-        </Grid>
-        <Grid item xs={6} align="center">
-          <Button
-            className={HomePageCSS.btn}
-            color="primary"
-            variant="contained"
-            size="large"
-            to="/join"
-            component={Link}>
-            Join a Room
-          </Button>
-        </Grid>
-        <Grid item xs={6} align="center">
-          <Button
-            className={HomePageCSS.btn}
-            color="secondary"
-            variant="contained"
-            size="large"
-            to="/create"
-            component={Link}>
-            Create Room
-          </Button>
-        </Grid>
-      </Grid>
+      <div className={HomePageCSS.container}>
+        <video autoPlay muted loop className={HomePageCSS.backgroundVideo}>
+          <source src="../../static/images/videoBG.mp4" type="video/mp4" />
+        </video>
+        <div className={HomePageCSS.content}>
+          <Grid
+            container
+            spacing={2}
+            alignItems="center"
+            justifyContent="center">
+            <Grid item xs={12} align="center">
+              <div className={HomePageCSS.hero}>
+                <Typography
+                  variant="h1"
+                  component="h1"
+                  className={HomePageCSS.heading}>
+                  <p className={HomePageCSS.gradientText}>SyncVibe</p>
+                </Typography>
+              </div>
+            </Grid>
+            <Grid item xs={12} align="center">
+              <ButtonGroup variant="outlined">
+                <Button
+                  className={HomePageCSS.btn}
+                  color="primary"
+                  variant="contained"
+                  size="large"
+                  to="/join"
+                  component={Link}>
+                  Join a Room
+                </Button>
+                <Button
+                  className={HomePageCSS.btn}
+                  color="secondary"
+                  variant="contained"
+                  size="large"
+                  to="/create"
+                  component={Link}>
+                  Create Room
+                </Button>
+              </ButtonGroup>
+            </Grid>
+          </Grid>
+        </div>
+      </div>
     );
   }
 

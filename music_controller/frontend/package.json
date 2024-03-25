@@ -28,6 +28,7 @@
     "@material-ui/lab": "^4.0.0-alpha.61",
     "css-loader": "^6.10.0",
     "file-loader": "^6.2.0",
+    "react-player": "^2.15.1",
     "react-router-dom": "^5.3.4",
     "style-loader": "^3.3.4",
     "url-loader": "^4.1.1"

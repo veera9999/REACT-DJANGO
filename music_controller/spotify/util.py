@@ -89,7 +89,11 @@ def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
         logging.error(f"Spotify API request failed: {response.json()}")
         return {'Error': 'Spotify API request failed'}
 
-    return response.json()
+    try:
+        return response.json()
+    except ValueError as e:
+        logging.error(f"Failed to decode JSON from Spotify API response: {str(e)}")
+        return {'error': 'Failed to decode JSON', 'status_code': response.status_code}
 
 
 def play_song(session_id):

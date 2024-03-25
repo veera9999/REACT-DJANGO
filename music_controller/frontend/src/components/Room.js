@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
 import CreateRoomPage from "./CreateRoomPage";
 import MusicPlayer from "./MusicPlayer";
+import RoomPageCSS from "../../static/css/Room.module.css";
 
 export default class Room extends Component {
   constructor(props) {
@@ -118,25 +119,14 @@ export default class Room extends Component {
 
   renderSettings() {
     return (
-      <Grid container spacing={1}>
-        <Grid item xs={12} align="center">
-          <CreateRoomPage
-            update={true}
-            votesToSkip={this.state.votesToSkip}
-            guestCanPause={this.state.guestCanPause}
-            roomCode={this.roomCode}
-            updateCallback={this.getRoomDetails}
-          />
-        </Grid>
-        <Grid item xs={12} align="center">
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={() => this.updateShowSettings(false)}>
-            Close
-          </Button>
-        </Grid>
-      </Grid>
+      <CreateRoomPage
+        update={true}
+        votesToSkip={this.state.votesToSkip}
+        guestCanPause={this.state.guestCanPause}
+        roomCode={this.roomCode}
+        updateCallback={this.getRoomDetails}
+        updateShowSettings={this.updateShowSettings} // Pass the function here
+      />
     );
   }
 
@@ -144,6 +134,7 @@ export default class Room extends Component {
     return (
       <Grid item xs={12} align="center">
         <Button
+          className={RoomPageCSS.btn}
           variant="contained"
           color="primary"
           onClick={() => this.updateShowSettings(true)}>
@@ -158,27 +149,70 @@ export default class Room extends Component {
       return this.renderSettings();
     }
     return (
-      <Grid container spacing={1}>
-        <Grid item xs={12} align="center">
-          <Typography variant="h4" component="h4">
-            Code: {this.roomCode}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} align="center">
-          <Typography variant="h6">{this.state.song.title}</Typography>{" "}
-          {/* Display the song title */}
-        </Grid>
-        <MusicPlayer {...this.state.song} />
-        {this.state.isHost ? this.renderSettingsButton() : null}
-        <Grid item xs={12} align="center">
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={this.leaveButtonPressed}>
-            Leave Room
-          </Button>
-        </Grid>
-      </Grid>
+      <div className={RoomPageCSS.container}>
+        <video autoPlay muted loop className={RoomPageCSS.backgroundVideo}>
+          <source src="../../static/images/videoBG.mp4" type="video/mp4" />
+        </video>
+        <div className={RoomPageCSS.content}>
+          <div>
+            {this.state.showSettings ? (
+              this.renderSettings()
+            ) : (
+              <Grid container spacing={3} alignItems="center">
+                <Grid item xs={12} align="center">
+                  <Typography variant="h4" component="h4">
+                    <p className={RoomPageCSS.text}>Code: {this.roomCode}</p>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} align="center">
+                  <Typography variant="h6">
+                    <p className={RoomPageCSS.text}>{this.state.song.title}</p>
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} align="center">
+                  <MusicPlayer {...this.state.song} />
+                </Grid>
+                {this.state.isHost ? this.renderSettingsButton() : null}
+                <Grid item xs={12} align="center">
+                  <Button
+                    className={RoomPageCSS.btn}
+                    variant="contained"
+                    color="secondary"
+                    onClick={this.leaveButtonPressed}>
+                    Leave Room
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
+          </div>
+        </div>
+      </div>
     );
   }
+}
+{
+  /*
+<Grid container spacing={1} alignItems="center">
+  <Grid item xs={12} align="center">
+    <Typography variant="h4" component="h4">
+      Code: {this.roomCode}
+    </Typography>
+  </Grid>
+  <Grid item xs={12} align="center">
+    <Typography variant="h6">{this.state.song.title}</Typography>{" "}
+    {/* Display the song title 
+  </Grid>
+  <MusicPlayer {...this.state.song} />
+  {this.state.isHost ? this.renderSettingsButton() : null}
+  <Grid item xs={12} align="center">
+    <Button
+      variant="contained"
+      color="secondary"
+      onClick={this.leaveButtonPressed}>
+      Leave Room
+    </Button>
+  </Grid>
+</Grid >;
+
+*/
 }
